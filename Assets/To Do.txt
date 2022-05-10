@@ -1,0 +1,1 @@
+Use Kente cloth patterns for the blocks and/or background.
