@@ -111,15 +111,17 @@ public class BallController : MonoBehaviour
 
     void Update()
     {
+        //position the ball
         transform.Translate(new Vector2(HorzSpeed*Time.deltaTime, VertSpeed*Time.deltaTime));
 
-        //stream
+        //update the ball's streamer
         for (int i= StreamerLength-1; i>0; i--)
         {
             Streamer[i].transform.position = Streamer[i - 1].transform.position;
         }
         Streamer[0].transform.position = transform.position;
 
+        //decrement the back-to-back collision avoidance counter
         if (avoidBackToBackCollison > 0) avoidBackToBackCollison--;
 
     }
@@ -150,62 +152,75 @@ public class BallController : MonoBehaviour
         if (other.name == "LeftWall" || other.name == "RightWall")
         {
             /* If the ball hits the left or right wall, negate the horizontal
-             and play the WallHitSound clip.*/
+             velocity and play the WallHitSound clip. */
             HorzSpeed = -HorzSpeed;
             audioSource.clip = WallHitSound;
             audioSource.Play();
         }
         else if (other.name == "TopWall" || other.name == "BottomWall")
         {
+            /* If the ball hits the top or bottom wall, negate the vertical
+             velocity and play the WallHitSound clip. */
             VertSpeed = -VertSpeed;
             audioSource.clip = WallHitSound;
             audioSource.Play();
         }
+        /* if we hit one of the blocks, reverse either the horizontal or 
+         * vertical velocity, play the BlockHitSound and destroy the
+         block object (which is a grandparent to the block collider
+         objects. */
         else if (other.name == "BlockLeft" || other.name == "BlockRight")
         {
             HorzSpeed = -HorzSpeed;
+            audioSource.clip = BlockHitSound;
+            audioSource.Play();
             Destroy(other.transform.parent.gameObject);
             BlockHit();
-            audioSource.Play();
         }
         else if (other.name == "BlockTop" || other.name == "BlockBottom")
         {
             VertSpeed = -VertSpeed;
+            audioSource.clip = BlockHitSound;
+            audioSource.Play();
             Destroy(other.transform.parent.gameObject);
             BlockHit();
-            audioSource.Play();
         }
+        /* if we hit one of the twin's head, adjust the score. */
         else if (other.name == "Head")
         {
             Score += TWIN_HIT_PTS;
         }
         else if (other.name == "Bar")
         {
+            /* if we hit the bar, reverse the vertical velocity of the ball,
+             * adjust the score and play the BatHitSound. */
             VertSpeed = -VertSpeed;
             audioSource.clip = BarHitSound;
             audioSource.Play();
             Score += BAR_HIT_PTS;
         }
 
+        //update the UI
         UpdateBlocks();
         UpdateScore();
     }
-
+    
+    /* function that is called when a block is hit.*/
     void BlockHit()
     {
-        audioSource.clip = BlockHitSound;
+        //shake the camera
         cameraController.Shake(0.02f, 2, 0.4f);
-        numBlocksHit++;
+        numBlocksHit++; //increment the # of blocks hit
         if (numBlocksHit == NumBlocks)
         {
             bGameOver = true;
-            GameOverText.SetActive(true);
-            BallSpeed = 0f;
+            GameOverText.SetActive(true);   //enable the "Game Over" sign
+            BallSpeed = 0f;     //stop the ball by setting the velocity to 0
             VertSpeed = 0f;
             HorzSpeed = 0f;
         }
         avoidBackToBackCollison = 1;
-        Score += BLOCK_HIT_PTS;
+        Score += BLOCK_HIT_PTS;     //increment the score
     }
 
     /* function to update the "score" label.  This UI text field reports the
