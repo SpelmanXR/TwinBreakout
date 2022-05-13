@@ -91,13 +91,16 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-
+        //clamp the player's position on the screen
         HorzPos = Mathf.Clamp(HorzPos, MinXPos, MaxXPos);
 
+        //move the player
         transform.position = new Vector2(HorzPos, transform.position.y);
 
     }
 
+    /* function that triggers the left twin's fall animation and set the
+     fall reset timer. */
     public void fallLeft()
     {
         idle();
@@ -106,6 +109,8 @@ public class PlayerController : MonoBehaviour
         ResetTime = Time.time + FallRecoverTime;
     }
 
+    /* function that triggers the right twin's fall animation and set the
+   fall reset timer. */
     public void fallRight()
     {
         idle();
@@ -114,24 +119,31 @@ public class PlayerController : MonoBehaviour
         ResetTime = Time.time + FallRecoverTime;
     }
 
+    //function that sets both twins to the idle animation state
     public void idle()
     {
         LeftTwin.idle();
         RightTwin.idle();
     }
 
+    //function that resets the player (twins and bar) to the starting position
     public void Reset()
     {
         HorzPos = 0;
+
+        //reset the twins
         LeftTwin.Reset();
         RightTwin.Reset();
+
+        //reset the bar
         Bar.transform.localPosition = BarTransformPosition;
         Bar.transform.localRotation = BarTransformRotation;
+
         fallen = false;
     }
 
 
-
+    // function to copy the values of one transform to another
     public void  CopyTransform(Transform source, Transform destination)
     {
         destination.localPosition = transform.localPosition;

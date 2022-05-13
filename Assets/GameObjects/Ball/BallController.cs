@@ -105,7 +105,7 @@ public class BallController : MonoBehaviour
         }
 
         //disable the "Game Over" text
-        //GameOverText.SetActive(false);
+        GameOverText.SetActive(false);
     }
 
 
