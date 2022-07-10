@@ -94,6 +94,8 @@ public class BallController : MonoBehaviour
         //get a reference to the AudioSource for later use
         audioSource = GetComponent<AudioSource>();
 
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+
         /* generate the streamer objects.  There are as many of them as the streamer is long
         and each is smaller than the previous to produce a comet-like streaming effect. */ 
         //Streamer 0 is full size, streamer StreamerLength-1 is 1/StreamerLength full size.
@@ -102,6 +104,9 @@ public class BallController : MonoBehaviour
             Streamer[i] = Instantiate(StreamerPrefab);
             Streamer[i].transform.position = transform.position;
             Streamer[i].transform.localScale = Streamer[i].transform.localScale * (StreamerLength-i) / StreamerLength;
+
+            //set the stereamer's color to the color of the ball
+            Streamer[i].GetComponent<SpriteRenderer>().color = spriteRenderer.color;
         }
 
         //disable the "Game Over" text

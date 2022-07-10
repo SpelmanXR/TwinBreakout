@@ -17,7 +17,7 @@ public class TwinHeadCtrl : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //check to see if we were hit by the ball
-        if (collision.gameObject.name == "Ball")
+        if (collision.gameObject.tag == "Ball")
         {
             if (IsLeftTwin())   //left
                 playerController.fallLeft();
