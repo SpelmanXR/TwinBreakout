@@ -72,7 +72,7 @@ public class BackgroundMaskController : MonoBehaviour
             spriteRenderer.sprite = SadMask;
             ResetTime = Time.time + duration;
             InDefaultState = false;
-            Debug.Log("Setting Sad Mask.");
+            //Debug.Log("Setting Sad Mask.");
         }
         else
         {
@@ -83,7 +83,7 @@ public class BackgroundMaskController : MonoBehaviour
 
     void SetDefaultMask()
     {
-        Debug.Log("Setting default mask.");
+        //Debug.Log("Setting default mask.");
         spriteRenderer.sprite = DefaultMask;
         InDefaultState = true;
         ResetTime = 0;
