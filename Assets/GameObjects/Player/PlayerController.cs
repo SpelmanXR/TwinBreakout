@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     Vector2 BarTransformPosition;           //the starting position of the bar (used to reset after a fall)
     Quaternion BarTransformRotation;        //the starting orientation of the bar (used to reset after a fall)
 
+    public BackgroundMaskController backgroundMaskController;
+
     float HorzPos;      //the horizontal position of the bar
     float MinXPos = -6f;        //the minimum X position for the player
     float MaxXPos = 6f;         //the maximum X position for the player
@@ -107,6 +109,7 @@ public class PlayerController : MonoBehaviour
         LeftTwin.fall();
         fallen = true;
         ResetTime = Time.time + FallRecoverTime;
+        backgroundMaskController.SetMask(BackgroundMaskController.MaskType.SadMask, FallRecoverTime);
     }
 
     /* function that triggers the right twin's fall animation and set the
@@ -117,6 +120,7 @@ public class PlayerController : MonoBehaviour
         RightTwin.fall();
         fallen = true;
         ResetTime = Time.time + FallRecoverTime;
+        backgroundMaskController.SetMask(BackgroundMaskController.MaskType.SadMask, FallRecoverTime);
     }
 
     //function that sets both twins to the idle animation state
